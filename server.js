@@ -8,14 +8,7 @@ const app = express();
 app.use(express.static('./dist/demo-listing'));
 
 app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname,'/dist/demo-listing/index.html'));
-});
-
-// Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
-
-const { Client } = require('pg');
+    const { Client } = require('pg');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -31,4 +24,11 @@ client.query('SELECT * FROM todos;', (err, res) => {
   }
   client.end();
 });
+res.sendFile(path.join(__dirname,'/dist/demo-listing/index.html'));
+});
+
+// Start the app by listening on the default Heroku port
+app.listen(process.env.PORT || 8080);
+
+
  
