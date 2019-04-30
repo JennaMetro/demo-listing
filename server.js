@@ -17,31 +17,28 @@ const config = {
 };
 
 // Serve only the static files form the dist directory
-app.use(express.static('./dist/demo-listing'));
+//app.use(express.static('./dist/demo-listing'));
 
 
 // Start the app by listening on the default Heroku port
 
+const { Client } = require('pg');
 
-const pool = new pg.Pool(config);
-
-app.get('/todos', (req, res, next) => {
-   pool.connect(function (err, client, done) {
-       if (err) {
-           console.log("Can not connect to the DB" + err);
-       }
-       client.query('SELECT * FROM todos', function (err, result) {
-            done();
-            if (err) {
-                console.log(err);
-                res.status(400).send(err);
-            }
-            console.log("toimii");
-            res.status(200).send(result.rows);
-       })
-   })
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
 });
-pool.end();
-app.listen(process.env.PORT || 4000, function () {
+
+client.connect();
+
+client.query('SELECT * FROM todos;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
+
+app.listen(process.env.PORT || 4200, function () {
     console.log('Server is running.. on Port something');
 });
