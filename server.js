@@ -17,12 +17,8 @@ const config = {
 };
 
 // Serve only the static files form the dist directory
-app.use(express.static('./dist/demo-listing'));
+//app.use(express.static('./dist/demo-listing'));
 
-app.get('/*', function(req,res) {
-    const { Client } = require('pg');
-
-});
 
 // Start the app by listening on the default Heroku port
 
