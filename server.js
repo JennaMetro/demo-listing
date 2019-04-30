@@ -15,18 +15,20 @@ res.sendFile(path.join(__dirname,'/dist/demo-listing/index.html'));
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
 
-var pg = require('pg');
- 
-app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM todos', function(err, result) {   
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-      console.log("toimi");
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+
+client.connect();
+
+client.query('SELECT * FROM todos;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
 });
  
