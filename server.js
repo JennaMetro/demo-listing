@@ -41,7 +41,7 @@ app.get('/todos', (req, res, next) => {
        })
    })
 });
-
+pool.end();
 app.listen(process.env.PORT || 4000, function () {
     console.log('Server is running.. on Port something');
 });
