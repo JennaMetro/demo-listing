@@ -17,7 +17,7 @@ const config = {
 };
 
 // Serve only the static files form the dist directory
-//app.use(express.static('./dist/demo-listing'));
+app.use(express.static('./dist/demo-listing'));
 
 
 // Start the app by listening on the default Heroku port
@@ -25,7 +25,7 @@ const config = {
 
 const pool = new pg.Pool(config);
 
-app.get('/', (req, res, next) => {
+app.get('/todos', (req, res, next) => {
    pool.connect(function (err, client, done) {
        if (err) {
            console.log("Can not connect to the DB" + err);
@@ -36,6 +36,7 @@ app.get('/', (req, res, next) => {
                 console.log(err);
                 res.status(400).send(err);
             }
+            console.log("toimii");
             res.status(200).send(result.rows);
        })
    })
