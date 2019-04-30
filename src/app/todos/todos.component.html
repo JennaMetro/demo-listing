@@ -1,0 +1,9 @@
+<div>
+    <ul class="todos">
+        <li *ngFor="let todo of todos" [class.selected]="todo === selectedTodo" (click)="onSelect(todo)">
+          <span>{{todo.name}} <br>
+           {{todo.description}}</span>
+        </li>
+      </ul>
+      <app-todo-detail [todo]="selectedTodo"></app-todo-detail>
+</div>

@@ -1,0 +1,13 @@
+
+      <div *ngIf="todo">
+          <h2>{{todo.name | uppercase}} Details</h2>
+          <div><span>id: </span>{{selectedTodo.id}}</div>
+          <div>
+            <label>name:
+              <input [(ngModel)]="todo.name" placeholder="name"/>
+            </label>
+            <br>
+              <label>description:
+              <input [(ngModel)]="todo.description" placeholder="description"/>
+            </label>
+          </div>
